@@ -1,7 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+// To tired to make it better now
 const toMove = ['manifest.json'];
 
 class MakeDistAndCopyPlugin {
@@ -71,6 +73,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new MakeDistAndCopyPlugin()
+        new MakeDistAndCopyPlugin(),
+        new CleanWebpackPlugin({
+            cleanAfterEveryBuildPatterns: ['*.LICENSE.txt'],
+        })
     ]
 };
