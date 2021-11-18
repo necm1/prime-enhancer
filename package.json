@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Skip Prime Intros & Ads",
   "scripts": {
-    "watch": "webpack --watch --mode=development"
+    "watch": "webpack --watch --mode=development",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,6 @@
     "ts-loader": "^9.2.6",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.5.0",
-    "write-file-webpack-plugin": "^4.5.1"
+    "webpack-dev-server": "^4.5.0"
   }
 }
