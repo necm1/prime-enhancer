@@ -4,6 +4,10 @@ import {interval} from 'rxjs';
  * @class Extension
  */
 class Extension {
+  public intro = true;
+  public ads = true;
+  public auto = true;
+
   /**
    * ContentScript constructor
    *
@@ -11,6 +15,29 @@ class Extension {
    */
   constructor() {
     console.info('Prime Enhancer started');
+
+    chrome.storage.sync.get(['intro'], (result) => {
+      extension.intro = result.intro === 'true' ? true : false;
+    });
+
+    chrome.storage.sync.get(['ads'], (result) => {
+      extension.ads = result.ads === 'true' ? true : false;
+    });
+
+    chrome.storage.sync.get(['auto'], (result) => {
+      extension.auto = result.auto === 'true' ? true : false;
+    });
+
+    chrome.runtime.onMessage.addListener((msg) => {
+      if (msg.intro) {
+        extension.intro = msg.intro === 'true' ? true : false;
+      } else if (msg.ads) {
+        extension.intro = msg.ads === 'true' ? true : false;
+      }
+      if (msg.auto) {
+        extension.intro = msg.auto === 'true' ? true : false;
+      }
+    });
   }
 
   /**
@@ -21,11 +48,10 @@ class Extension {
   public async handleIntro(): Promise<void> {
     const skipButton = await this.getSkipButton();
 
-    if (!skipButton) {
+    if (!skipButton || !this.intro) {
       return;
     }
 
-    // Click
     skipButton.click();
   }
 
@@ -52,7 +78,7 @@ class Extension {
         nextTitle.click();
     }
         */
-    if (!nextEpisode) {
+    if (!nextEpisode || !this.auto) {
       return;
     }
 
@@ -69,7 +95,7 @@ class Extension {
   public async handleSkipAds(): Promise<void> {
     const skipAds = await this.getSkipAds();
 
-    if (!skipAds) {
+    if (!skipAds || !this.ads) {
       return;
     }
 
