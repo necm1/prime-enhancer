@@ -4,178 +4,189 @@ import {interval} from 'rxjs';
  * @class Extension
  */
 class Extension {
-    /**
-     * ContentScript constructor
-     * 
-     * @constructor
-     */
-    constructor() {
-        console.info('Prime Enhancer started');
+  /**
+   * ContentScript constructor
+   *
+   * @constructor
+   */
+  constructor() {
+    console.info('Prime Enhancer started');
+  }
+
+  /**
+   * @public
+   * @async
+   * @returns {Promise<void>}
+   */
+  public async handleIntro(): Promise<void> {
+    const skipButton = await this.getSkipButton();
+
+    if (!skipButton) {
+      return;
     }
 
-    /**
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
-    public async handleIntro(): Promise<void> {
-        const skipButton = await this.getSkipButton();
+    // Click
+    skipButton.click();
+  }
 
-        if (!skipButton) {
-            return;
-        }
+  /**
+   * Handle next episode
+   *
+   * @public
+   * @async
+   * @returns {Promise<void>}
+   */
+  public async handleNextEpisode(): Promise<void> {
+    const seekBar = await this.getSeekBar();
 
-        // Click
-        skipButton.click();
+    if (!seekBar || seekBar.value <= (90).toString()) {
+      return;
     }
 
-    /**
-     * Handle next episode
-     * 
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
-    public async handleNextEpisode(): Promise<void> {
-        const seekBar = await this.getSeekBar();
+    const nextEpisode = await this.getNextEpisode();
+    const nextTitle = await this.getNextTitleButton();
 
-        if (!seekBar || seekBar.value <= (90).toString()) {
-            return;
-        }
-
-        const nextEpisode = await this.getNextEpisode();
-        const nextTitle = await this.getNextTitleButton();
-
-        // Sometimes the next episode isn't showing
-        // thats why we manully click on next episode
-        if (!nextEpisode || (seekBar.value >= (98).toString() && nextTitle)) {
-            nextTitle.click();
-            return;
-        }
-
-        nextEpisode.click();
+    // Sometimes the next episode isn't showing
+    // thats why we manully click on next episode
+    if (!nextEpisode || (seekBar.value >= (98).toString() && nextTitle)) {
+      nextTitle.click();
+      return;
     }
 
-    /**
-     * Handle skip ads
-     * 
-     * @public
-     * @async
-     * @returns {Promise<void>}
-     */
-    public async handleSkipAds(): Promise<void> {
-        const skipAds = await this.getSkipAds();
+    nextEpisode.click();
+  }
 
-        if (!skipAds) {
-            return;
-        }
+  /**
+   * Handle skip ads
+   *
+   * @public
+   * @async
+   * @returns {Promise<void>}
+   */
+  public async handleSkipAds(): Promise<void> {
+    const skipAds = await this.getSkipAds();
 
-        skipAds.click();
+    if (!skipAds) {
+      return;
     }
 
-    /**
-     * Get skip ads "button"
-     * 
-     * @private
-     * @async
-     * @returns {Promise<HTMLElement>}
-     */
-    private getSkipAds(): Promise<HTMLElement> {
-        return new Promise<HTMLElement>((resolve, reject) => {
-            const skipAdsRef = document.getElementsByClassName('fu4rd6c f1cw2swo');
+    skipAds.click();
+  }
 
-            if (!skipAdsRef || skipAdsRef.length === 0) {
-                reject();
-            }
+  /**
+   * Get skip ads "button"
+   *
+   * @private
+   * @async
+   * @returns {Promise<HTMLElement>}
+   */
+  private getSkipAds(): Promise<HTMLElement> {
+    return new Promise<HTMLElement>((resolve, reject) => {
+      const skipAdsRef = document.getElementsByClassName('fu4rd6c f1cw2swo');
 
-            const skipAdsElement: HTMLElement = skipAdsRef[0] as HTMLElement;
+      if (!skipAdsRef || skipAdsRef.length === 0) {
+        reject();
+      }
 
-            resolve(skipAdsElement);
-        })
-    }
+      const skipAdsElement: HTMLElement = skipAdsRef[0] as HTMLElement;
 
-    /**
-     * Get intro skip button
-     * 
-     * @private
-     * @async
-     * @returns {Promise<HTMLButtonElement>}
-     */
-    private getSkipButton(): Promise<HTMLButtonElement> {
-        return new Promise<HTMLButtonElement>((resolve, reject) => {
-            const skipButtonRef = document.getElementsByClassName('atvwebplayersdk-skipelement-button');
+      resolve(skipAdsElement);
+    });
+  }
 
-            if (!skipButtonRef || skipButtonRef.length === 0) {
-                reject();
-            }
+  /**
+   * Get intro skip button
+   *
+   * @private
+   * @async
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  private getSkipButton(): Promise<HTMLButtonElement> {
+    return new Promise<HTMLButtonElement>((resolve, reject) => {
+      const skipButtonRef = document.getElementsByClassName(
+        'atvwebplayersdk-skipelement-button'
+      );
 
-            const skipButton: HTMLButtonElement = skipButtonRef[0] as HTMLButtonElement;
+      if (!skipButtonRef || skipButtonRef.length === 0) {
+        reject();
+      }
 
-            resolve(skipButton);
-        });
-    }
+      const skipButton: HTMLButtonElement =
+        skipButtonRef[0] as HTMLButtonElement;
 
-    /**
-     * Get player seekbar
-     * 
-     * @private
-     * @async
-     * @returns {Promise<HTMLInputElement>}
-     */
-    private getSeekBar(): Promise<HTMLInputElement> {
-        return new Promise<HTMLInputElement>((resolve, reject) => {
-            const seekBarRef = document.getElementsByClassName('atvwebplayersdk-seekbar-range');
+      resolve(skipButton);
+    });
+  }
 
-            if (!seekBarRef || seekBarRef.length === 0) {
-                reject();
-            }
+  /**
+   * Get player seekbar
+   *
+   * @private
+   * @async
+   * @returns {Promise<HTMLInputElement>}
+   */
+  private getSeekBar(): Promise<HTMLInputElement> {
+    return new Promise<HTMLInputElement>((resolve, reject) => {
+      const seekBarRef = document.getElementsByClassName(
+        'atvwebplayersdk-seekbar-range'
+      );
 
-            const seekBar: HTMLInputElement = seekBarRef[0] as HTMLInputElement;
+      if (!seekBarRef || seekBarRef.length === 0) {
+        reject();
+      }
 
-            resolve(seekBar);
-        });
-    }
+      const seekBar: HTMLInputElement = seekBarRef[0] as HTMLInputElement;
 
-    /**
-     * Get next title button
-     * 
-     * @private
-     * @async
-     * @returns {Promise<HTMLButtonElement>}
-     */
-    private getNextTitleButton(): Promise<HTMLButtonElement> {
-        return new Promise<HTMLButtonElement>((resolve, reject) => {
-            const nextTitleRef = document.getElementsByClassName('atvwebplayersdk-nexttitle-button');
+      resolve(seekBar);
+    });
+  }
 
-            if (!nextTitleRef || nextTitleRef.length === 0) {
-                reject();
-            }
+  /**
+   * Get next title button
+   *
+   * @private
+   * @async
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  private getNextTitleButton(): Promise<HTMLButtonElement> {
+    return new Promise<HTMLButtonElement>((resolve, reject) => {
+      const nextTitleRef = document.getElementsByClassName(
+        'atvwebplayersdk-nexttitle-button'
+      );
 
-            const nextTitleButton: HTMLButtonElement = nextTitleRef[0] as HTMLButtonElement;
+      if (!nextTitleRef || nextTitleRef.length === 0) {
+        reject();
+      }
 
-            resolve(nextTitleButton);
-        });
-    }
+      const nextTitleButton: HTMLButtonElement =
+        nextTitleRef[0] as HTMLButtonElement;
 
-    /**
-     * Get next episode button
-     * 
-     * @private
-     * @async
-     * @returns {Promise<HTMLButtonElement>}
-     */
-    private getNextEpisode(): Promise<HTMLButtonElement> {
-        return new Promise<HTMLButtonElement>((resolve, reject) => {
-            const nextEpisodeRef = document.getElementsByClassName('atvwebplayersdk-nextupcard-button');
+      resolve(nextTitleButton);
+    });
+  }
 
-            if (!nextEpisodeRef || nextEpisodeRef.length === 0) {
-                reject();
-            }
+  /**
+   * Get next episode button
+   *
+   * @private
+   * @async
+   * @returns {Promise<HTMLButtonElement>}
+   */
+  private getNextEpisode(): Promise<HTMLButtonElement> {
+    return new Promise<HTMLButtonElement>((resolve, reject) => {
+      const nextEpisodeRef = document.getElementsByClassName(
+        'atvwebplayersdk-nextupcard-button'
+      );
 
-            const nextEpisodeButton: HTMLButtonElement = nextEpisodeRef[0] as HTMLButtonElement;
-            resolve(nextEpisodeButton);
-        });
-    }
+      if (!nextEpisodeRef || nextEpisodeRef.length === 0) {
+        reject();
+      }
+
+      const nextEpisodeButton: HTMLButtonElement =
+        nextEpisodeRef[0] as HTMLButtonElement;
+      resolve(nextEpisodeButton);
+    });
+  }
 }
 
 const extension = new Extension();
@@ -184,7 +195,7 @@ const extension = new Extension();
 // or should we unsubscribe?
 // @todo add next video detection to stop timer
 interval(850).subscribe(() => {
-    extension.handleIntro();
-    extension.handleNextEpisode();
-    extension.handleSkipAds();
+  extension.handleIntro();
+  extension.handleNextEpisode();
+  extension.handleSkipAds();
 });
