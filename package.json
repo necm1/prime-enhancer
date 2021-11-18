@@ -1,0 +1,28 @@
+{
+  "name": "prime-enhancer",
+  "version": "1.0.0",
+  "description": "Skip Prime Intros & Ads",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/necm1/prime-enhancer.git"
+  },
+  "keywords": [
+    "amazon",
+    "prime",
+    "skipper",
+    "intro",
+    "ads"
+  ],
+  "author": "Necmi M. Hasan <necmi.m.hasan@outlook.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/necm1/prime-enhancer/issues"
+  },
+  "homepage": "https://github.com/necm1/prime-enhancer#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
