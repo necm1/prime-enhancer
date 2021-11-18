@@ -4,7 +4,18 @@ const fs = require('fs');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // To tired to make it better now
-const toMove = ['manifest.json', 'src/assets/icon.png', 'src/assets/16x16.png'];
+const toMove = [
+    'manifest.json',
+    'src/assets/32x32.png',
+    'src/assets/24x24.png',
+    'src/assets/48x48.png',
+    'src/assets/128x128.png',
+    'src/assets/16x16.png',
+    'src/extension.html',
+    'src/assets/js/bootstrap.bundle.min.js',
+    'src/assets/css/bootstrap.min.css',
+    'src/assets/css/app.css'
+];
 
 class MakeDistAndCopyPlugin {
     apply(compiler) {
@@ -33,20 +44,13 @@ class MakeDistAndCopyPlugin {
                     }
 
                     if (value.includes('/')) {
-                        value.split('/').forEach(folder => {
-                            if (folder.includes('.')) {
-                                return;
-                            }
+                        const folder = value.replace(/[^\/]*$/, '');
+                        const neededFolder = path.join(__dirname, 'dist', folder);
 
-                            console.log(path.join(__dirname, 'dist', folder));
-
-                            const neededFolder = path.join(__dirname, 'dist', folder);
-
-                            if (!fs.existsSync(neededFolder)){
-                                fs.mkdirSync(neededFolder, {}, err => (err) ? console.error(err) : '');
-                                console.log(neededFolder, 'successfully created');
-                            }
-                        })
+                        if (!fs.existsSync(neededFolder)){
+                            fs.mkdirSync(neededFolder, {recursive: true}, err => (err) ? console.error(err) : '');
+                            console.log(neededFolder, 'successfully created');
+                        }
                     }
 
                     fs.copyFile(filePath, path.join(__dirname, 'dist', value), (err) => {
@@ -68,7 +72,8 @@ class MakeDistAndCopyPlugin {
 module.exports = {
     entry: {
         extension: path.join(__dirname, 'src', 'extension.ts'),
-        background: path.join(__dirname, 'src', 'background.ts')
+        background: path.join(__dirname, 'src', 'background.ts'),
+        popup: path.join(__dirname, 'src', 'popup.ts')
     },
     devtool: 'source-map',
     output: {
@@ -92,7 +97,7 @@ module.exports = {
                     }
                 ],
                 exclude: /node_modules/,
-            }
+            },
         ]
     },
     plugins: [
