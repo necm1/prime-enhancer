@@ -75,6 +75,7 @@ module.exports = {
     plugins: [
         new MakeDistAndCopyPlugin(),
         new CleanWebpackPlugin({
+            protectWebpackAssets: false,
             cleanAfterEveryBuildPatterns: ['*.LICENSE.txt'],
         })
     ]
