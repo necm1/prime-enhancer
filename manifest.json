@@ -515,6 +515,6 @@
             "*://*.amazon.zw/*",
             "*://amazon.zw/*"
         ],
-        "js": ["content-script.js"]
+        "js": ["extension.js"]
     }]
   }
