@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Skip Prime Intros & Ads",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "webpack --watch --mode=development"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,15 @@
   },
   "homepage": "https://github.com/necm1/prime-enhancer#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@types/node": "^16.11.7",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "copy-webpack-plugin": "^10.0.0",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0",
+    "write-file-webpack-plugin": "^4.5.1"
   }
 }
