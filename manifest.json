@@ -8,6 +8,7 @@
     "icons": {},
     "action": {
         "default_icon": {
+          "16": "assets/16x16.png",
           "50": "assets/icon.png"
         },
         "default_title": "Prime Enhancer",

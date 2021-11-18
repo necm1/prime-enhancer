@@ -4,17 +4,18 @@ const fs = require('fs');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // To tired to make it better now
-const toMove = ['manifest.json'];
+const toMove = ['manifest.json', 'src/assets/icon.png', 'src/assets/16x16.png'];
 
 class MakeDistAndCopyPlugin {
     apply(compiler) {
       compiler.hooks.emit.tapAsync(
         'MakeDistPlugin',
         (compilation, callback) => {
-            const dir = path.join(__dirname, 'dist');
+           const distFolder = path.join(__dirname, 'dist');
 
-            if (!fs.existsSync(dir)){
-                fs.mkdirSync(dir);
+            if (!fs.existsSync(distFolder)){
+                fs.mkdirSync(distFolder);
+                console.log(distFolder, 'successfully created');
             }
 
             if (toMove && toMove.length > 0) {
@@ -24,6 +25,28 @@ class MakeDistAndCopyPlugin {
                     if (!fs.existsSync(filePath)) {
                         console.error(`${value} doesn't exists`);
                         return;
+                    }
+
+                    // Remove src from path
+                    if (value.includes('src/')) {
+                        value = value.replace('src/', '');
+                    }
+
+                    if (value.includes('/')) {
+                        value.split('/').forEach(folder => {
+                            if (folder.includes('.')) {
+                                return;
+                            }
+
+                            console.log(path.join(__dirname, 'dist', folder));
+
+                            const neededFolder = path.join(__dirname, 'dist', folder);
+
+                            if (!fs.existsSync(neededFolder)){
+                                fs.mkdirSync(neededFolder, {}, err => (err) ? console.error(err) : '');
+                                console.log(neededFolder, 'successfully created');
+                            }
+                        })
                     }
 
                     fs.copyFile(filePath, path.join(__dirname, 'dist', value), (err) => {
@@ -73,10 +96,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new MakeDistAndCopyPlugin(),
         new CleanWebpackPlugin({
             protectWebpackAssets: false,
-            cleanAfterEveryBuildPatterns: ['*.LICENSE.txt'],
-        })
+            cleanAfterEveryBuildPatterns: ['!manifest.json', '!assets/**', '*.LICENSE.txt']
+        }),
+        new MakeDistAndCopyPlugin(),
     ]
 };

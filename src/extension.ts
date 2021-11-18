@@ -44,12 +44,15 @@ class Extension {
     }
 
     const nextEpisode = await this.getNextEpisode();
-    const nextTitle = await this.getNextTitleButton();
 
-    // Sometimes the next episode isn't showing
-    // thats why we manully click on next episode
-    if (!nextEpisode || (seekBar.value >= (98).toString() && nextTitle)) {
-      nextTitle.click();
+    //const nextTitle = await this.getNextTitleButton();
+    //console.log(!nextEpisode && seekBar.value >= (98).toString() && nextTitle);
+    /*
+    if (seekBar.value >= (98).toString() && nextTitle) {
+        nextTitle.click();
+    }
+        */
+    if (!nextEpisode) {
       return;
     }
 
@@ -85,7 +88,7 @@ class Extension {
       const skipAdsRef = document.getElementsByClassName('fu4rd6c f1cw2swo');
 
       if (!skipAdsRef || skipAdsRef.length === 0) {
-        reject();
+        return;
       }
 
       const skipAdsElement: HTMLElement = skipAdsRef[0] as HTMLElement;
@@ -108,7 +111,7 @@ class Extension {
       );
 
       if (!skipButtonRef || skipButtonRef.length === 0) {
-        reject();
+        return;
       }
 
       const skipButton: HTMLButtonElement =
@@ -132,7 +135,7 @@ class Extension {
       );
 
       if (!seekBarRef || seekBarRef.length === 0) {
-        reject();
+        return;
       }
 
       const seekBar: HTMLInputElement = seekBarRef[0] as HTMLInputElement;
@@ -155,7 +158,7 @@ class Extension {
       );
 
       if (!nextTitleRef || nextTitleRef.length === 0) {
-        reject();
+        return;
       }
 
       const nextTitleButton: HTMLButtonElement =
@@ -179,7 +182,7 @@ class Extension {
       );
 
       if (!nextEpisodeRef || nextEpisodeRef.length === 0) {
-        reject();
+        return;
       }
 
       const nextEpisodeButton: HTMLButtonElement =
