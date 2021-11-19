@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
-    "name": "Prime Enhancer",
-    "short_name": "PE",
+    "name": "Prime+",
+    "short_name": "P+",
     "version": "1.0.0",
-    "description": "Skipping intro, ads & including autoplay.",
+    "description": "Skips Prime intros & ads. It also includes a autoplay function to play the next episode.",
     "icons": {
       "16": "assets/16x16.png",
       "48": "assets/48x48.png",
@@ -15,7 +15,7 @@
           "24": "assets/24x24.png",
           "32": "assets/32x32.png"
         },
-        "default_title": "Prime Enhancer",
+        "default_title": "Prime+",
         "default_popup": "extension.html"
     },
     "author": "Necmi M. Hasan (https://github.com/necm1) <necmi.m.hasan@outlook.de>",
@@ -522,5 +522,5 @@
         ],
         "js": ["extension.js"]
     }],
-    "permissions": ["storage", "tabs", "activeTab"]
+    "permissions": ["storage", "activeTab"]
   }
