@@ -1,7 +1,7 @@
 {
-  "name": "prime-enhancer",
-  "version": "1.0.0",
-  "description": "Skip Prime Intros & Ads",
+  "name": "prime-plus",
+  "version": "1.0.1",
+  "description": "Skips Prime intros & ads. It also includes a autoplay function to play the next episode.",
   "scripts": {
     "watch": "webpack --watch --mode=development",
     "build": "webpack"
@@ -11,18 +11,18 @@
     "url": "git+https://github.com/necm1/prime-enhancer.git"
   },
   "keywords": [
-    "amazon",
     "prime",
     "skipper",
     "intro",
-    "ads"
+    "ads",
+    "autoplay"
   ],
   "author": "Necmi M. Hasan <necmi.m.hasan@outlook.de>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/necm1/prime-enhancer/issues"
+    "url": "https://github.com/necm1/prime-plus/issues"
   },
-  "homepage": "https://github.com/necm1/prime-enhancer#readme",
+  "homepage": "https://github.com/necm1/prime-plus#readme",
   "devDependencies": {
     "@types/node": "^16.11.7",
     "clean-webpack-plugin": "^4.0.0",
