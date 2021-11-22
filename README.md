@@ -13,3 +13,6 @@ Run `npm run build`
 
 # Issues & Bugs
 Feel free to create a PR or a new issue on https://github.com/necm1/prime-plus/issues
+
+# Chrome Webstore
+https://chrome.google.com/webstore/detail/prime%20/lgejlnclmflojhbhjnccolagafnjpiio
